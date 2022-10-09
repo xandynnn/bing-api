@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
+const serveless = require("serverless-http");
 
 const instance = axios.create({
   baseURL: "https://www.bing.com",
@@ -23,4 +24,15 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT || 3000);
+app.get("/json", (req, res) => {
+  res.json({
+    path: "json",
+    author: "Jhon",
+  });
+});
+
+// app.listen(process.env.PORT || 3000, () =>
+//   console.log("App running on port: 3000")
+// );
+
+module.exports.handler = serveless(app);
