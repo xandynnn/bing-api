@@ -8,12 +8,13 @@ const instance = axios.create({
 });
 
 const app = express();
+const router = express.Router();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 
-app.get("/", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const result = await instance.get(
       "/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=pt-BR"
@@ -24,7 +25,7 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.get("/json", (req, res) => {
+router.get("/json", (req, res) => {
   res.json({
     path: "json",
     author: "Jhon",
@@ -34,5 +35,7 @@ app.get("/json", (req, res) => {
 // app.listen(process.env.PORT || 3000, () =>
 //   console.log("App running on port: 3000")
 // );
+
+app.use("/", router);
 
 module.exports.handler = serveless(app);
